@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.5.2",
+    "Version": "4.5.0",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -114,6 +114,35 @@
         "R"
       ]
     },
+    "bslib": {
+      "Package": "bslib",
+      "Version": "0.9.0",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "base64enc",
+        "cachem",
+        "fastmap",
+        "grDevices",
+        "htmltools",
+        "jquerylib",
+        "jsonlite",
+        "lifecycle",
+        "memoise",
+        "mime",
+        "rlang",
+        "sass"
+      ]
+    },
+    "cachem": {
+      "Package": "cachem",
+      "Version": "1.1.0",
+      "Source": "Repository",
+      "Requirements": [
+        "rlang",
+        "fastmap"
+      ]
+    },
     "callr": {
       "Package": "callr",
       "Version": "3.7.6",
@@ -150,6 +179,34 @@
       "Source": "Repository",
       "Requirements": [
         "R"
+      ]
+    },
+    "crosstalk": {
+      "Package": "crosstalk",
+      "Version": "1.2.2",
+      "Source": "Repository",
+      "Requirements": [
+        "htmltools",
+        "jsonlite",
+        "lazyeval",
+        "R6"
+      ]
+    },
+    "curl": {
+      "Package": "curl",
+      "Version": "7.0.0",
+      "Source": "Repository",
+      "Requirements": [
+        "R"
+      ]
+    },
+    "data.table": {
+      "Package": "data.table",
+      "Version": "1.18.0",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "methods"
       ]
     },
     "desc": {
@@ -212,6 +269,14 @@
       "RemoteRepo": "dyads",
       "RemoteSha": "14a13c858038898a378a7b34f8d044050a0b4a8b"
     },
+    "evaluate": {
+      "Package": "evaluate",
+      "Version": "1.0.5",
+      "Source": "Repository",
+      "Requirements": [
+        "R"
+      ]
+    },
     "farver": {
       "Package": "farver",
       "Version": "2.1.2",
@@ -240,6 +305,16 @@
         "R"
       ]
     },
+    "fontawesome": {
+      "Package": "fontawesome",
+      "Version": "0.5.3",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "rlang",
+        "htmltools"
+      ]
+    },
     "fontquiver": {
       "Package": "fontquiver",
       "Version": "0.2.1",
@@ -248,6 +323,15 @@
         "R",
         "fontBitstreamVera",
         "fontLiberation"
+      ]
+    },
+    "fs": {
+      "Package": "fs",
+      "Version": "1.6.6",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "methods"
       ]
     },
     "gdtools": {
@@ -337,6 +421,15 @@
         "stats"
       ]
     },
+    "highr": {
+      "Package": "highr",
+      "Version": "0.11",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "xfun"
+      ]
+    },
     "htmltools": {
       "Package": "htmltools",
       "Version": "0.5.9",
@@ -349,6 +442,32 @@
         "grDevices",
         "rlang",
         "utils"
+      ]
+    },
+    "htmlwidgets": {
+      "Package": "htmlwidgets",
+      "Version": "1.6.4",
+      "Source": "Repository",
+      "Requirements": [
+        "grDevices",
+        "htmltools",
+        "jsonlite",
+        "knitr",
+        "rmarkdown",
+        "yaml"
+      ]
+    },
+    "httr": {
+      "Package": "httr",
+      "Version": "1.4.7",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "curl",
+        "jsonlite",
+        "mime",
+        "openssl",
+        "R6"
       ]
     },
     "isoband": {
@@ -392,7 +511,7 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "jasp-stats",
       "RemoteRepo": "jaspBase",
-      "RemoteSha": "c13989df6f159fbc75e3dfb3d74401076adf1f0a"
+      "RemoteSha": "8644ec49b334edebe234c0b3134236adc4521627"
     },
     "jaspGraphs": {
       "Package": "jaspGraphs",
@@ -404,8 +523,10 @@
         "ggplot2",
         "gridExtra",
         "gtable",
+        "htmlwidgets",
         "jsonlite",
         "lifecycle",
+        "plotly",
         "R6",
         "rlang",
         "scales"
@@ -414,7 +535,15 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "jasp-stats",
       "RemoteRepo": "jaspGraphs",
-      "RemoteSha": "d46caca693dd3e0b0ad28fcb938c07b843b867ac"
+      "RemoteSha": "8e81aa94693dde74ceba2681158362ef648c6d8d"
+    },
+    "jquerylib": {
+      "Package": "jquerylib",
+      "Version": "0.1.4",
+      "Source": "Repository",
+      "Requirements": [
+        "htmltools"
+      ]
     },
     "jsonlite": {
       "Package": "jsonlite",
@@ -422,6 +551,20 @@
       "Source": "Repository",
       "Requirements": [
         "methods"
+      ]
+    },
+    "knitr": {
+      "Package": "knitr",
+      "Version": "1.51",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "evaluate",
+        "highr",
+        "methods",
+        "tools",
+        "xfun",
+        "yaml"
       ]
     },
     "labeling": {
@@ -433,14 +576,31 @@
         "graphics"
       ]
     },
+    "later": {
+      "Package": "later",
+      "Version": "1.4.5",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "rlang"
+      ]
+    },
+    "lazyeval": {
+      "Package": "lazyeval",
+      "Version": "0.2.2",
+      "Source": "Repository",
+      "Requirements": [
+        "R"
+      ]
+    },
     "lifecycle": {
       "Package": "lifecycle",
-      "Version": "1.0.4",
+      "Version": "1.0.5",
       "Source": "Repository",
       "Requirements": [
         "R",
         "cli",
-        "glue",
         "rlang"
       ]
     },
@@ -450,6 +610,23 @@
       "Source": "Repository",
       "Requirements": [
         "R"
+      ]
+    },
+    "memoise": {
+      "Package": "memoise",
+      "Version": "2.0.1",
+      "Source": "Repository",
+      "Requirements": [
+        "rlang",
+        "cachem"
+      ]
+    },
+    "mime": {
+      "Package": "mime",
+      "Version": "0.13",
+      "Source": "Repository",
+      "Requirements": [
+        "tools"
       ]
     },
     "mvtnorm": {
@@ -489,6 +666,14 @@
         "askpass"
       ]
     },
+    "otel": {
+      "Package": "otel",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Requirements": [
+        "R"
+      ]
+    },
     "pillar": {
       "Package": "pillar",
       "Version": "1.11.1",
@@ -524,6 +709,36 @@
         "utils"
       ]
     },
+    "plotly": {
+      "Package": "plotly",
+      "Version": "4.11.0",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "ggplot2",
+        "tools",
+        "scales",
+        "httr",
+        "jsonlite",
+        "magrittr",
+        "digest",
+        "viridisLite",
+        "base64enc",
+        "htmltools",
+        "htmlwidgets",
+        "tidyr",
+        "RColorBrewer",
+        "dplyr",
+        "vctrs",
+        "tibble",
+        "lazyeval",
+        "rlang",
+        "crosstalk",
+        "purrr",
+        "data.table",
+        "promises"
+      ]
+    },
     "plyr": {
       "Package": "plyr",
       "Version": "1.8.9",
@@ -542,6 +757,21 @@
         "ps",
         "R6",
         "utils"
+      ]
+    },
+    "promises": {
+      "Package": "promises",
+      "Version": "1.5.0",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "fastmap",
+        "later",
+        "lifecycle",
+        "magrittr",
+        "otel",
+        "R6",
+        "rlang"
       ]
     },
     "ps": {
@@ -575,6 +805,14 @@
         "textshaping"
       ]
     },
+    "rappdirs": {
+      "Package": "rappdirs",
+      "Version": "0.3.3",
+      "Source": "Repository",
+      "Requirements": [
+        "R"
+      ]
+    },
     "readxl": {
       "Package": "readxl",
       "Version": "1.4.5",
@@ -603,6 +841,27 @@
         "utils"
       ]
     },
+    "rmarkdown": {
+      "Package": "rmarkdown",
+      "Version": "2.30",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "bslib",
+        "evaluate",
+        "fontawesome",
+        "htmltools",
+        "jquerylib",
+        "jsonlite",
+        "knitr",
+        "methods",
+        "tinytex",
+        "tools",
+        "utils",
+        "xfun",
+        "yaml"
+      ]
+    },
     "rvg": {
       "Package": "rvg",
       "Version": "0.4.0",
@@ -616,6 +875,18 @@
         "rlang",
         "systemfonts",
         "xml2"
+      ]
+    },
+    "sass": {
+      "Package": "sass",
+      "Version": "0.4.10",
+      "Source": "Repository",
+      "Requirements": [
+        "fs",
+        "rlang",
+        "htmltools",
+        "R6",
+        "rappdirs"
       ]
     },
     "scales": {
@@ -763,6 +1034,14 @@
         "withr"
       ]
     },
+    "tinytex": {
+      "Package": "tinytex",
+      "Version": "0.58",
+      "Source": "Repository",
+      "Requirements": [
+        "xfun"
+      ]
+    },
     "utf8": {
       "Package": "utf8",
       "Version": "1.2.6",
@@ -809,6 +1088,17 @@
         "grDevices"
       ]
     },
+    "xfun": {
+      "Package": "xfun",
+      "Version": "0.55",
+      "Source": "Repository",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "stats",
+        "tools"
+      ]
+    },
     "xml2": {
       "Package": "xml2",
       "Version": "1.5.1",
@@ -819,6 +1109,12 @@
         "methods",
         "rlang"
       ]
+    },
+    "yaml": {
+      "Package": "yaml",
+      "Version": "2.3.12",
+      "Source": "Repository",
+      "Requirements": []
     },
     "zigg": {
       "Package": "zigg",
