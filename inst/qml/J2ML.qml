@@ -20,78 +20,130 @@ import QtQuick
 import QtQuick.Layouts
 import JASP.Controls
 import JASP 1.0
+import "Common.js" as Common
 
 Form
 {
 	columns: 1
-	FileSelector
+	Group
 	{
-		id:										net
-		name:									"net"
-		label:									qsTr("Net")
-		placeholderText:						qsTr("path/network_data.xlsx")
-		filter:									"*.xlsx"
-		save:									false
-		fieldWidth:								300 * preferencesModel.uiScale
-		defaultValue:							"C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/network.xlsx"
-		directory:								false
+		FileSelector
+		{
+			id:										net
+			name:									"net"
+			label:									qsTr("Net")
+			placeholderText:						qsTr("path/network_data.xlsx")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/network.xlsx")
+			directory:								false
+		}
+
+		FileSelector
+		{
+			id:										sender
+			name:									"sender"
+			label:									qsTr("Sender")
+			placeholderText:						qsTr("path/")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/actor_file1.xlsx;" + libPathDir.value + "/jaspDyads/data/actor_file2.xlsx")
+			multiple:								true
+		}
+
+		FileSelector
+		{
+			id:										receiver
+			name:									"receiver"
+			label:									qsTr("Receiver")
+			placeholderText:						qsTr("path/")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/actor_file1.xlsx;" + libPathDir.value + "/jaspDyads/data/actor_file2.xlsx")
+			multiple:								true
+		}
+
+		FileSelector
+		{
+			id:										density
+			name:									"density"
+			label:									qsTr("Density")
+			placeholderText:						qsTr("path/")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/density_file1.xlsx;" + libPathDir.value + "/jaspDyads/data/density_file2.xlsx")
+			multiple:								true
+		}
+
+		FileSelector
+		{
+			id:										reciprocity
+			name:									"reciprocity"
+			label:									qsTr("Reciprocity")
+			placeholderText:						qsTr("path/")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/reciprocity_file1.xlsx;" + libPathDir.value + "/jaspDyads/data/reciprocity_file2.xlsx")
+			multiple:								true
+		}
 	}
 
-	FileSelector
+	Group
 	{
-		id:										sender
-		name:									"sender"
-		label:									qsTr("Sender")
-		placeholderText:						qsTr("path/")
-		filter:									"*.xlsx"
-		save:									false
-		fieldWidth:								300 * preferencesModel.uiScale
-		defaultValue:							"C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/actor_file1.xlsx;C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/actor_file2.xlsx"
-		multiple:								true
+		IntegerField {name: "burnin"; label: qsTr("Burnin"); defaultValue: 15; min: 0; placeholderText: qsTr("10000")}
+		IntegerField {name: "adapt"; label: qsTr("Adapt"); defaultValue: 15; min: 0; placeholderText: qsTr("100")}
+		IntegerField {name: "seed"; label: qsTr("Seed"); defaultValue: 1; min: 0; placeholderText: qsTr("1")}
 	}
 
-	FileSelector
+	Group
 	{
-		id:										receiver
-		name:									"receiver"
-		label:									qsTr("Receiver")
-		placeholderText:						qsTr("path/")
-		filter:									"*.xlsx"
-		save:									false
-		fieldWidth:								300 * preferencesModel.uiScale
-		defaultValue:							"C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/actor_file1.xlsx;C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/actor_file2.xlsx"
-		multiple:								true
+		CheckBox {name: "center"; label: qsTr("Center covariates"); checked: true}
+		CheckBox {name: "separateSigma"; label: qsTr("Separate sender-receiver covariance matrices"); checked: false}
+		CheckBox {name: "densVar"; label: qsTr("Random density effects"); checked: true}
+		CheckBox {name: "recVar"; label: qsTr("Random reciprocity effects"); checked: true}
 	}
 
-	FileSelector
+	Group
 	{
-		id:										density
-		name:									"density"
-		label:									qsTr("Density")
-		placeholderText:						qsTr("path/")
-		filter:									"*.xlsx"
-		save:									false
-		fieldWidth:								300 * preferencesModel.uiScale
-		defaultValue:							"C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/density_file1.xlsx;C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/density_file2.xlsx"
-		multiple:								true
+		Text
+		{
+			text: "<b>Sender files:</b><br>" + Common.formatSelectedFiles(sender.value)
+		}
+
+		Text
+		{
+			text: "<b>Receiver files:</b><br>" + Common.formatSelectedFiles(receiver.value)
+		}
+
+		Text
+		{
+			text: "<b>Density files:</b><br>" + Common.formatSelectedFiles(density.value)
+		}
+
+		Text
+		{
+			text: "<b>Reciprocity files:</b><br>" + Common.formatSelectedFiles(reciprocity.value)
+		}
 	}
 
-	FileSelector
+	Button
 	{
-		id:										reciprocity
-		name:									"reciprocity"
-		label:									qsTr("Reciprocity")
-		placeholderText:						qsTr("path/")
-		filter:									"*.xlsx"
-		save:									false
-		fieldWidth:								300 * preferencesModel.uiScale
-		defaultValue:							"C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/reciprocity_file1.xlsx;C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/reciprocity_file2.xlsx"
-		multiple:								true
+		label: "Compute"
+		CheckBox {id: compute; name: "compute"; checked: true; visible: false}
+		onClicked: compute.click()
 	}
 
-	IntegerField {name: "burnin"; label: qsTr("Burnin"); defaultValue: 15; min: 0; placeholderText: qsTr("10000")}
-	IntegerField {name: "adapt"; label: qsTr("Adapt"); defaultValue: 15; min: 0; placeholderText: qsTr("100")}
-	IntegerField {name: "seed"; label: qsTr("Seed"); defaultValue: 1; min: 0; placeholderText: qsTr("1")}
-	CheckBox {name: "center"; label: qsTr("Center"); checked: true}
-	CheckBox {name: "separate"; label: qsTr("Separate"); checked: false}
+	// get the module location
+	DropDown
+	{
+		id: libPathDir
+		name: "libPathLocation"
+		visible: false
+		rSource: "libPathDir"
+	}
 }

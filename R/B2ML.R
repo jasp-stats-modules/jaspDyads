@@ -23,7 +23,14 @@
 #' @param options {list} A named list of interface options selected by the user.
 ##----------------------------------------------------------------
 B2ML <- function(jaspResults, dataset = NULL, options, ...) {
-    dependVarsB2ML <- c("net", "actor", "density", "burnin", "adapt", "seed", "center", "separate", "densVar")
+    addLibPathLocation(jaspResults)
+    previousCompute <- jaspResults[["previousCompute"]]
+    if (!is.null(previousCompute) && options[["compute"]] == previousCompute$object) {
+        return()
+    }
+    jaspResults[["previousCompute"]] <- createJaspState(options[["compute"]])
+    dependVarsB2ML <- c("compute")
+
     # Check if the container already exists. Create it if it doesn't.
     if (is.null(jaspResults[["b2mlContainer"]]) || jaspResults[["b2mlContainer"]]$getError()) {
         b2mlContainer <- createJaspContainer(title = "")
@@ -38,11 +45,10 @@ B2ML <- function(jaspResults, dataset = NULL, options, ...) {
     actorMatrix <- NULL
     densityMatrix <- NULL
 
-    # Parse the option values and store them in the variables
+    # 1. Parse network
     # net => each excel file can have multiple sheets. Need to concatenate.
     if (options[["net"]] != "") {
         filepath <- options[["net"]]
-        # code here
         if (file.exists(filepath)) {
             sheetNames <- readxl::excel_sheets(filepath)
             netList <- lapply(sheetNames, function(sheet) {
@@ -52,14 +58,9 @@ B2ML <- function(jaspResults, dataset = NULL, options, ...) {
                 matrix(x, ncol = dim(x)[1])
             })
         }
-        # netop <- createJaspHtml(text = gettextf("Raw value of netList is: %s\n", toString(netList)))
-        # b2mlContainer[["netop"]] <- netop
     }
 
-    # m3 <-  dyads::b2ML(netList, adapt = 20, burnin = 100)
-    # b2mlop <- createJaspHtml(text = gettextf("B2ML: %s\n", toString(summary(m3))))
-    # b2mlContainer[["b2mlop"]] <- b2mlop
-
+    # 2. Parse actor
     if (nchar(options[["actor"]]) != 0) {
         actorFiles <- unlist(strsplit(options[["actor"]], ";"))
         actorCovariatesList <- lapply(actorFiles, function(filepath) {
@@ -84,10 +85,9 @@ B2ML <- function(jaspResults, dataset = NULL, options, ...) {
             # Add prefix to avoid ambiguity in results
             colnames(actorMatrix) <- paste0("actor_", colnames(actorMatrix))
         }
-        # actorMatrixop <- createJaspHtml(text = gettextf("Raw value of actorMatrix is: %s\n", toString(actorMatrix)))
-        # b2mlContainer[["actorMatrixop"]] <- actorMatrixop
     }
 
+    # 3. Parse density
     if (options[["density"]] != "") {
         densityFiles <- unlist(strsplit(options[["density"]], ";"))
         densityCovariatesList <- lapply(densityFiles, function(filepath) {
@@ -113,27 +113,20 @@ B2ML <- function(jaspResults, dataset = NULL, options, ...) {
             # Add prefix to avoid ambiguity in results
             names(densityCovariatesList) <- paste0("density_", names(densityCovariatesList))
             densityMatrix <- densityCovariatesList
-
-            # For debugging/display purposes
-            # densityMatrixOp <- createJaspHtml(text = gettextf("Raw value of densityMatrix is: %s\n", toString(densityMatrix)))
-            # b2mlContainer[["densityMatrixOp"]] <- densityMatrixOp
         }
     }
 
-    # Parse MCMC parameters
+    # 4. Parse MCMC parameters
     burnin <- options[["burnin"]]
     adapt <- options[["adapt"]]
     seed <- options[["seed"]]
     center <- options[["center"]]
-    separate <- options[["separate"]]
+    separateSigma <- options[["separateSigma"]]
     densVar <- options[["densVar"]]
-
-    # mcmcParamsText <- gettextf("MCMC params -> burnin: %s, adapt: %s, seed: %s, center: %s, separate: %s", burnin, adapt, seed, center, separate)
-    # b2mlContainer[["mcmcParamsOp"]] <- createJaspHtml(text = mcmcParamsText)
 
     # Ensure netList is available before proceeding
     if (is.null(netList)) {
-        b2mlContainer[["error"]] <- createJaspHtml(text = gettext("Network data could not be loaded. Please check the input file."), class = "error")
+        b2mlContainer[["info"]] <- createJaspHtml(text = gettext("Please press Compute to see the estimation results."))
         return()
     }
 
@@ -144,12 +137,11 @@ B2ML <- function(jaspResults, dataset = NULL, options, ...) {
         adapt = adapt,
         seed = seed,
         center = center,
-        separate = separate,
+        separateSigma = separateSigma,
         densVar = densVar
     )
 
     # The formula interface of dyads::b2ML requires variables to be in the environment.
-    # We add them to the current function's environment, which is safe and temporary.
     currentEnv <- environment()
 
     # Handle actor covariates
@@ -166,6 +158,8 @@ B2ML <- function(jaspResults, dataset = NULL, options, ...) {
 
     # Run the b2ML model with all specified arguments
     resultsB2ML <- tryCatch({
+        startProgressbar(length(b2mlArgs), gettext("Estimating network parameters for B2ML"))
+        progressbarTick()
         do.call(dyads::b2ML, b2mlArgs)
     }, error = function(e) {
         b2mlContainer[["error"]] <- createJaspHtml(text = gettextf("An error occurred during model estimation: %s", e$message), class = "error")
@@ -174,16 +168,12 @@ B2ML <- function(jaspResults, dataset = NULL, options, ...) {
 
     # If the model ran successfully, display the summary
     if (!is.null(resultsB2ML)) {
-        # summaryText <- paste(capture.output(summary(finalModel)), collapse = "\n")
-        # summaryOp <- createJaspHtml(text = gettextf("<pre>%s</pre>", summaryText))
-        # b2mlContainer[["finalModelSummary"]] <- summaryOp
-        # Create table for the B2ML results
         resultsB2ML <- summary(resultsB2ML)
         resultsB2ML <- cbind(Parameter=rownames(resultsB2ML), as.data.frame(resultsB2ML))
+        # Create table for the B2ML results
         tableB2ML <- createJaspTable(title = gettextf("B2ML Results"))
         tableB2ML$dependOn(dependVarsB2ML)
         tableB2ML$setData(resultsB2ML)
-        # tableP2$addRows(resultsP2, rowNames = unique(rownames(resultsP2)))
         tableB2ML$position <- 1
         b2mlContainer[["tableB2ML"]] <- tableB2ML
     }

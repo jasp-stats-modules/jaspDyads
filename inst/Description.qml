@@ -7,16 +7,16 @@ Description
 	title		: qsTr("Dyads")
 	description	: qsTr("This module offers dyadic network analyses.")
 	icon		: "network.svg"
-	version		: "0.19.3"
-	author		: "JASP Team"
-	maintainer	: "JASP Team <info@jasp-stats.org>"
+	version		: "0.19.6.0"
+	author		: "Pankaj Singla"
+	maintainer	: "Pankaj Singla <pankaj.r.singla@gmail.com>"
 	website		: "https://jasp-stats.org"
 	license		: "GPL (>= 2)"
 
 	GroupTitle
 	{
 		title:	qsTr("Single Level")
-		icon:	"network.svg"
+		icon:	"single_level.svg"
 	}
 
 	Analysis
@@ -40,7 +40,7 @@ Description
 	GroupTitle
 	{
 		title:	qsTr("Multi Level")
-		icon:	"network.svg"
+		icon:	"multilevel.svg"
 	}
 
 	Analysis

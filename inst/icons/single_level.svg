@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512">
+  <defs>
+    <radialGradient id="bg1" cx="40%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#1e2d4d"/>
+      <stop offset="100%" stop-color="#090e1c"/>
+    </radialGradient>
+    <radialGradient id="shimmer1" cx="60%" cy="30%" r="40%">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow-coral" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-gold" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-mint" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="edge-glow" x="-20%" y="-100%" width="140%" height="300%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <!-- <rect width="200" height="200" rx="20" fill="url(#bg1)"/> -->
+  <!-- <rect width="200" height="200" rx="20" fill="url(#shimmer1)"/> -->
+
+  <!-- Single-level ground baseline indicator -->
+  <!-- <line x1="18" y1="183" x2="182" y2="183" stroke="#2a4a7a" stroke-width="1" stroke-dasharray="3 4" stroke-opacity="0.7"/> -->
+
+  <!-- Structural (non-dyadic) background edges -->
+  <!-- <line x1="76" y1="48" x2="74" y2="152" stroke="#3a6fa8" stroke-width="1.2" stroke-opacity="0.35"/> -->
+  <!-- <line x1="128" y1="48" x2="150" y2="100" stroke="#3a6fa8" stroke-width="1.2" stroke-opacity="0.35"/> -->
+  <!-- <line x1="76" y1="48" x2="50" y2="100" stroke="#3a6fa8" stroke-width="1.2" stroke-opacity="0.35"/> -->
+  <!-- <line x1="50" y1="100" x2="76" y2="152" stroke="#3a6fa8" stroke-width="1.2" stroke-opacity="0.35"/>
+  <line x1="128" y1="152" x2="150" y2="100" stroke="#3a6fa8" stroke-width="1.2" stroke-opacity="0.35"/> -->
+  <!-- <line x1="150" y1="100" x2="74" y2="152" stroke="#3a6fa8" stroke-width="1.2" stroke-opacity="0.35"/> -->
+  <!-- <line x1="124" y1="152" x2="128" y2="48" stroke="#3a6fa8" stroke-width="1.2" stroke-opacity="0.35"/> -->
+  <!-- <line x1="50" y1="100" x2="124" y2="152" stroke="#3a6fa8" stroke-width="1.2" stroke-opacity="0.35"/> -->
+
+  <!-- Dyadic Pair 1: CORAL — N1(76,48) ↔ N2(128,48) -->
+  <!-- <line x1="76" y1="48" x2="128" y2="48" stroke="#ff6b6b" stroke-width="5" stroke-opacity="0.25" stroke-linecap="round" filter="url(#edge-glow)"/>
+  <line x1="76" y1="48" x2="128" y2="48" stroke="#ff6b6b" stroke-width="2.2" stroke-linecap="round"/> -->
+
+  <!-- Dyadic Pair 2: GOLD — N3(150,100) ↔ N6(50,100) -->
+  <line x1="150" y1="100" x2="50" y2="100" stroke="#fbbf24" stroke-width="5" stroke-opacity="0.25" stroke-linecap="round" filter="url(#edge-glow)"/>
+  <line x1="150" y1="100" x2="50" y2="100" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round"/>
+
+  <!-- Dyadic Pair 3: MINT — N4(124,152) ↔ N5(74,152) -->
+  <!-- <line x1="124" y1="152" x2="74" y2="152" stroke="#34d399" stroke-width="5" stroke-opacity="0.25" stroke-linecap="round" filter="url(#edge-glow)"/>
+  <line x1="124" y1="152" x2="74" y2="152" stroke="#34d399" stroke-width="2.2" stroke-linecap="round"/> -->
+
+  <!-- Nodes — Coral pair -->
+  <!-- <circle cx="76" cy="48" r="9.5" fill="#0d1b35" stroke="#ff6b6b" stroke-width="2.5"/>
+  <circle cx="76" cy="48" r="5" fill="#ff6b6b" filter="url(#glow-coral)"/>
+  <circle cx="128" cy="48" r="9.5" fill="#0d1b35" stroke="#ff6b6b" stroke-width="2.5"/>
+  <circle cx="128" cy="48" r="5" fill="#ff6b6b" filter="url(#glow-coral)"/> -->
+
+  <!-- Nodes — Gold pair -->
+  <circle cx="150" cy="100" r="9.5" fill="#0d1b35" stroke="#fbbf24" stroke-width="2.5"/>
+  <circle cx="150" cy="100" r="5" fill="#fbbf24" filter="url(#glow-gold)"/>
+  <circle cx="50" cy="100" r="9.5" fill="#0d1b35" stroke="#fbbf24" stroke-width="2.5"/>
+  <circle cx="50" cy="100" r="5" fill="#fbbf24" filter="url(#glow-gold)"/>
+
+  <!-- Nodes — Mint pair -->
+  <!-- <circle cx="124" cy="152" r="9.5" fill="#0d1b35" stroke="#34d399" stroke-width="2.5"/>
+  <circle cx="124" cy="152" r="5" fill="#34d399" filter="url(#glow-mint)"/>
+  <circle cx="74" cy="152" r="9.5" fill="#0d1b35" stroke="#34d399" stroke-width="2.5"/>
+  <circle cx="74" cy="152" r="5" fill="#34d399" filter="url(#glow-mint)"/> -->
+
+  <!-- 1-L badge -->
+  <!-- <rect x="155" y="14" width="29" height="16" rx="5" fill="#1e3a6a" fill-opacity="0.8"/>
+  <text x="169.5" y="25.5" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="#60a5fa" letter-spacing="0.5">1-L</text> -->
+</svg>

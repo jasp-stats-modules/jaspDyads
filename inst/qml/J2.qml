@@ -24,67 +24,100 @@ import JASP 1.0
 Form
 {
 	columns: 1
-	FileSelector
+	Group
 	{
-		id:										net
-		name:									"net"
-		label:									qsTr("Net")
-		placeholderText:						qsTr("path/network_data_file.csv")
-		filter:									"*.csv"
-		save:									false
-		fieldWidth:								300 * preferencesModel.uiScale
-		defaultValue:							"C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/net.csv"
+		FileSelector
+		{
+			id:										net
+			name:									"net"
+			label:									qsTr("Net")
+			placeholderText:						qsTr("path/network_data.xlsx")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/network.xlsx")
+			directory:								false
+		}
+
+		FileSelector
+		{
+			id:										sender
+			name:									"sender"
+			label:									qsTr("Sender")
+			placeholderText:						qsTr("path/")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/sender_file1.xlsx")
+			multiple:								false
+		}
+
+		FileSelector
+		{
+			id:										receiver
+			name:									"receiver"
+			label:									qsTr("Receiver")
+			placeholderText:						qsTr("path/")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/reciever_file1.xlsx")
+			multiple:								false
+		}
+
+		FileSelector
+		{
+			id:										density
+			name:									"density"
+			label:									qsTr("Density")
+			placeholderText:						qsTr("path/density_data.xlsx")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/density_file1.xlsx")
+			multiple:								false
+		}
+
+		FileSelector
+		{
+			id:										reciprocity
+			name:									"reciprocity"
+			label:									qsTr("Reciprocity")
+			placeholderText:						qsTr("path/reciprocity_data.xlsx")
+			filter:									"*.xlsx"
+			save:									false
+			fieldWidth:								300 * preferencesModel.uiScale
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/reciprocity_file1.xlsx")
+			multiple:								false
+		}
 	}
 
-	TextArea
+	Group
 	{
-		title:									qsTr("Comma-separated Sequence of Sender Covariates")
-		height:									50
-		name:									"sender"
-		textType:								JASP.TextTypeSource
-		separators:								[",",";","\n"]
-		placeholderText: 						qsTr("1,0,1,0,1,1,0,1,0,1")
-		text: 									"1,0,1,0,1,1,0,1,0,1"
+		IntegerField {name: "burnin"; label: qsTr("Burnin"); defaultValue: 10; min: 0; placeholderText: qsTr("10000")}
+		IntegerField {name: "sample"; label: qsTr("Sample"); defaultValue: 40; min: 0; placeholderText: qsTr("80000")}
+		IntegerField { name: "adapt"; label: qsTr("Adapt"); defaultValue: 10; min: 0; placeholderText: qsTr("100")}
+		IntegerField {name: "seed"; label: qsTr("Seed"); defaultValue: 1; min: 0; placeholderText: qsTr("1")}
 	}
 
-	TextArea
+	Group
 	{
-		title:									qsTr("Comma-separated Sequence of Receiver Covariates")
-		height:									50
-		name:									"receiver"
-		textType:								JASP.TextTypeSource
-		separators:								[",",";","\n"]
-		placeholderText: 						qsTr("0,1,0,1,0,0,1,0,1,0")
-		text: 									"0,1,0,1,0,0,1,0,1,0"
+		CheckBox {name: "center"; label: qsTr("Center"); checked: false}
 	}
 
-	FileSelector
+	Button
 	{
-		id:										density
-		name:									"density"
-		label:									qsTr("Density")
-		placeholderText:						qsTr("path/density_data.csv")
-		filter:									"*.csv"
-		save:									false
-		fieldWidth:								300 * preferencesModel.uiScale
-		defaultValue:							"C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/density_p2.csv"
+		label: "Compute"
+		CheckBox {id: compute; name: "compute"; checked: true; visible: false}
+		onClicked: compute.click()
 	}
 
-	FileSelector
+	// get the module location
+	DropDown
 	{
-		id:										reciprocity
-		name:									"reciprocity"
-		label:									qsTr("Reciprocity")
-		placeholderText:						qsTr("path/reciprocity_data.csv")
-		filter:									"*.csv"
-		save:									false
-		fieldWidth:								300 * preferencesModel.uiScale
-		defaultValue:							"C:/Users/panka/OneDrive/Desktop/My_Stuff/Amsterdam/Project/JASP/jaspDyads/tests/testthat/data/reciprocity_p2.csv"
+		id: libPathDir
+		name: "libPathLocation"
+		visible: false
+		rSource: "libPathDir"
 	}
-
-	IntegerField {name: "burnin"; label: qsTr("Burnin"); defaultValue: 10; min: 0; placeholderText: qsTr("10000")}
-	IntegerField {name: "sample"; label: qsTr("Sample"); defaultValue: 40; min: 0; placeholderText: qsTr("40000")}
-	IntegerField { name: "adapt"; label: qsTr("Adapt"); defaultValue: 10; min: 0; placeholderText: qsTr("100")}
-	IntegerField {name: "seed"; label: qsTr("Seed"); defaultValue: 1; min: 0; placeholderText: qsTr("1")}
-	CheckBox {name: "center"; label: qsTr("Center"); checked: false}
 }

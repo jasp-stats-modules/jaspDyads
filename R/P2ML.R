@@ -23,7 +23,14 @@
 #' @param options {list} A named list of interface options selected by the user.
 ##----------------------------------------------------------------
 P2ML <- function(jaspResults, dataset = NULL, options, ...) {
-    dependVarsP2ML <- c("net", "sender", "receiver", "density", "reciprocity", "burnin", "adapt", "seed", "center", "separate")
+    addLibPathLocation(jaspResults)
+    previousCompute <- jaspResults[["previousCompute"]]
+    if (!is.null(previousCompute) && options[["compute"]] == previousCompute$object) {
+        return()
+    }
+    jaspResults[["previousCompute"]] <- createJaspState(options[["compute"]])
+    dependVarsP2ML <- c("compute")
+
     # Check if the container already exists. Create it if it doesn't.
     if (is.null(jaspResults[["p2mlContainer"]]) || jaspResults[["p2mlContainer"]]$getError()) {
         p2mlContainer <- createJaspContainer(title = "")
@@ -40,11 +47,10 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
     densityMatrix <- NULL
     reciprocityMatrix <- NULL
 
-    # Parse the option values and store them in the variables
+    # 1. Parse network
     # net => each excel file can have multiple sheets. Need to concatenate.
     if (options[["net"]] != "") {
         filepath <- options[["net"]]
-        # code here
         if (file.exists(filepath)) {
             sheetNames <- readxl::excel_sheets(filepath)
             netList <- lapply(sheetNames, function(sheet) {
@@ -54,14 +60,9 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
                 matrix(x, ncol = dim(x)[1])
             })
         }
-        # netop <- createJaspHtml(text = gettextf("Raw value of netList is: %s\n", toString(netList)))
-        # p2mlContainer[["netop"]] <- netop
     }
 
-    # m3 <-  dyads::p2ML(netList, adapt = 20, burnin = 100)
-    # p2mlop <- createJaspHtml(text = gettextf("P2ML: %s\n", toString(summary(m3))))
-    # p2mlContainer[["p2mlop"]] <- p2mlop
-
+    # 2. Parse sender
     if (nchar(options[["sender"]]) != 0) {
         senderFiles <- unlist(strsplit(options[["sender"]], ";"))
         senderCovariatesList <- lapply(senderFiles, function(filepath) {
@@ -86,10 +87,9 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
             safeColNames <- paste0("sender_cov_net_", seq_len(ncol(senderMatrix)))
             colnames(senderMatrix) <- safeColNames
         }
-        # senderMatrixop <- createJaspHtml(text = gettextf("Raw value of senderMatrix is: %s\n", toString(senderMatrix)))
-        # p2mlContainer[["senderMatrixop"]] <- senderMatrixop
     }
 
+    # 3. Parse receiver
     if (nchar(options[["receiver"]]) != 0) {
         receiverFiles <- unlist(strsplit(options[["receiver"]], ";"))
         receiverCovariatesList <- lapply(receiverFiles, function(filepath) {
@@ -114,10 +114,9 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
             safeColNames <- paste0("receiver_cov_net_", seq_len(ncol(receiverMatrix)))
             colnames(receiverMatrix) <- safeColNames
         }
-        # receiverMatrixop <- createJaspHtml(text = gettextf("Raw value of receiverMatrix is: %s\n", toString(receiverMatrix)))
-        # p2mlContainer[["receiverMatrixop"]] <- receiverMatrixop
     }
 
+    # 4. Parse density
     if (options[["density"]] != "") {
         densityFiles <- unlist(strsplit(options[["density"]], ";"))
         densityCovariatesList <- lapply(densityFiles, function(filepath) {
@@ -142,13 +141,10 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
             # Create safe, unique names to avoid clashes, e.g., density_cov_1, density_cov_2
             names(densityCovariatesList) <- paste0("density_cov_net_", seq_along(validFiles))
             densityMatrix <- densityCovariatesList
-
-            # For debugging/display purposes
-            # densityMatrixOp <- createJaspHtml(text = gettextf("Raw value of densityMatrix is: %s\n", toString(densityMatrix)))
-            # p2mlContainer[["densityMatrixOp"]] <- densityMatrixOp
         }
     }
 
+    # 5. Parse reciprocity
     if (options[["reciprocity"]] != "") {
         reciprocityFiles <- unlist(strsplit(options[["reciprocity"]], ";"))
         reciprocityCovariatesList <- lapply(reciprocityFiles, function(filepath) {
@@ -178,26 +174,21 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
             # Create safe, unique names to avoid clashes, e.g., reciprocity_cov_1, reciprocity_cov_2
             names(reciprocityCovariatesList) <- paste0("reciprocity_cov_net_", seq_along(validFiles))
             reciprocityMatrix <- reciprocityCovariatesList
-
-            # For debugging/display purposes
-            # reciprocityMatrixOp <- createJaspHtml(text = gettextf("Raw value of reciprocityMatrix is: %s\n", toString(reciprocityMatrix)))
-            # p2mlContainer[["reciprocityMatrixOp"]] <- reciprocityMatrixOp
         }
     }
 
-    # Parse MCMC parameters
+    # 6. Parse MCMC parameters
     burnin <- options[["burnin"]]
     adapt <- options[["adapt"]]
     seed <- options[["seed"]]
     center <- options[["center"]]
-    separate <- options[["separate"]]
-
-    # mcmcParamsText <- gettextf("MCMC params -> burnin: %s, adapt: %s, seed: %s, center: %s, separate: %s", burnin, adapt, seed, center, separate)
-    # p2mlContainer[["mcmcParamsOp"]] <- createJaspHtml(text = mcmcParamsText)
+    separateSigma <- options[["separateSigma"]]
+    densVar <- options[["densVar"]]
+    recVar <- options[["recVar"]]
 
     # Ensure netList is available before proceeding
     if (is.null(netList)) {
-        p2mlContainer[["error"]] <- createJaspHtml(text = gettext("Network data could not be loaded. Please check the input file."), class = "error")
+        p2mlContainer[["info"]] <- createJaspHtml(text = gettext("Please press Compute to see the estimation results."))
         return()
     }
 
@@ -208,11 +199,12 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
         adapt = adapt,
         seed = seed,
         center = center,
-        separate = separate
+        separateSigma = separateSigma,
+        densVar = densVar,
+        recVar = recVar
     )
 
     # The formula interface of dyads::p2ML requires variables to be in the environment.
-    # We add them to the current function's environment, which is safe and temporary.
     currentEnv <- environment()
 
     # Handle sender covariates
@@ -241,6 +233,8 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
 
     # Run the p2ML model with all specified arguments
     resultsP2ML <- tryCatch({
+        startProgressbar(length(p2mlArgs), gettext("Estimating network parameters for P2ML"))
+        progressbarTick()
         do.call(dyads::p2ML, p2mlArgs)
     }, error = function(e) {
         p2mlContainer[["error"]] <- createJaspHtml(text = gettextf("An error occurred during model estimation: %s", e$message), class = "error")
@@ -249,16 +243,12 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
 
     # If the model ran successfully, display the summary
     if (!is.null(resultsP2ML)) {
-        # summaryText <- paste(capture.output(summary(finalModel)), collapse = "\n")
-        # summaryOp <- createJaspHtml(text = gettextf("<pre>%s</pre>", summaryText))
-        # p2mlContainer[["finalModelSummary"]] <- summaryOp
-        # Create table for the P2ML results
         resultsP2ML <- summary(resultsP2ML)
         resultsP2ML <- cbind(Parameter=rownames(resultsP2ML), as.data.frame(resultsP2ML))
+        # Create table for the P2ML results
         tableP2ML <- createJaspTable(title = gettextf("P2ML Results"))
         tableP2ML$dependOn(dependVarsP2ML)
         tableP2ML$setData(resultsP2ML)
-        # tableP2$addRows(resultsP2, rowNames = unique(rownames(resultsP2)))
         tableP2ML$position <- 1
         p2mlContainer[["tableP2ML"]] <- tableP2ML
     }
