@@ -191,13 +191,18 @@ P2 <- function(jaspResults, dataset = NULL, options, ...) {
         p2Args$reciprocity <- as.formula(paste("~", paste(names(reciprocityVars), collapse = " + ")))
     }
 
-    # Run the P2 model with all specified arguments
     resultsP2 <- tryCatch({
-        startProgressbar(length(p2Args), gettext("Estimating network parameters for P2"))
-        progressbarTick()
-        do.call(dyads::p2, p2Args)
+        runDyadsWithProgress(
+            dyadsFunction = dyads::p2,
+            args          = p2Args,
+            options       = options,
+            label         = gettext("Estimating network parameters for P2...")
+        )
     }, error = function(e) {
-        p2Container[["error"]] <- createJaspHtml(text = gettextf("An error occurred during model estimation: %s", e$message), class = "error")
+        p2Container[["error"]] <- createJaspHtml(
+            text  = gettextf("An error occurred during model estimation: %s", e$message),
+            class = "error"
+        )
         return(NULL)
     })
 

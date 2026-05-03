@@ -233,13 +233,18 @@ J2ML <- function(jaspResults, dataset = NULL, options, ...) {
         j2mlArgs$reciprocity <- as.formula(paste("~", paste(names(reciprocityMatrix), collapse = " + ")))
     }
 
-    # Run the j2ML model with all specified arguments
     resultsJ2ML <- tryCatch({
-        startProgressbar(length(j2mlArgs), gettext("Estimating network parameters for J2ML"))
-        progressbarTick()
-        do.call(dyads::j2ML, j2mlArgs)
+        runDyadsWithProgress(
+            dyadsFunction = dyads::j2ML,
+            args          = j2mlArgs,
+            options       = options,
+            label         = gettext("Estimating network parameters for J2ML...")
+        )
     }, error = function(e) {
-        j2mlContainer[["error"]] <- createJaspHtml(text = gettextf("An error occurred during model estimation: %s", e$message), class = "error")
+        j2mlContainer[["error"]] <- createJaspHtml(
+            text  = gettextf("An error occurred during model estimation: %s", e$message),
+            class = "error"
+        )
         return(NULL)
     })
 

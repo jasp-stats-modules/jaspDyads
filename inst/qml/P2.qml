@@ -61,7 +61,7 @@ Form
 			filter:									"*.xlsx"
 			save:									false
 			fieldWidth:								300 * preferencesModel.uiScale
-			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/reciever_file1.xlsx")
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/receiver_file1.xlsx")
 			multiple:								false
 		}
 

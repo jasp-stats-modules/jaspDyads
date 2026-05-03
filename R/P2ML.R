@@ -231,13 +231,18 @@ P2ML <- function(jaspResults, dataset = NULL, options, ...) {
         p2mlArgs$reciprocity <- as.formula(paste("~", paste(names(reciprocityMatrix), collapse = " + ")))
     }
 
-    # Run the p2ML model with all specified arguments
     resultsP2ML <- tryCatch({
-        startProgressbar(length(p2mlArgs), gettext("Estimating network parameters for P2ML"))
-        progressbarTick()
-        do.call(dyads::p2ML, p2mlArgs)
+        runDyadsWithProgress(
+            dyadsFunction = dyads::p2ML,
+            args          = p2mlArgs,
+            options       = options,
+            label         = gettext("Estimating network parameters for P2ML...")
+        )
     }, error = function(e) {
-        p2mlContainer[["error"]] <- createJaspHtml(text = gettextf("An error occurred during model estimation: %s", e$message), class = "error")
+        p2mlContainer[["error"]] <- createJaspHtml(
+            text  = gettextf("An error occurred during model estimation: %s", e$message),
+            class = "error"
+        )
         return(NULL)
     })
 

@@ -156,13 +156,18 @@ B2ML <- function(jaspResults, dataset = NULL, options, ...) {
         b2mlArgs$density <- as.formula(paste("~", paste(names(densityMatrix), collapse = " + ")))
     }
 
-    # Run the b2ML model with all specified arguments
     resultsB2ML <- tryCatch({
-        startProgressbar(length(b2mlArgs), gettext("Estimating network parameters for B2ML"))
-        progressbarTick()
-        do.call(dyads::b2ML, b2mlArgs)
+        runDyadsWithProgress(
+            dyadsFunction = dyads::b2ML,
+            args          = b2mlArgs,
+            options       = options,
+            label         = gettext("Estimating network parameters for B2ML...")
+        )
     }, error = function(e) {
-        b2mlContainer[["error"]] <- createJaspHtml(text = gettextf("An error occurred during model estimation: %s", e$message), class = "error")
+        b2mlContainer[["error"]] <- createJaspHtml(
+            text  = gettextf("An error occurred during model estimation: %s", e$message),
+            class = "error"
+        )
         return(NULL)
     })
 

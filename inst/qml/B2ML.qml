@@ -36,7 +36,7 @@ Form
 			filter:									"*.xlsx"
 			save:									false
 			fieldWidth:								300 * preferencesModel.uiScale
-			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/network.xlsx")
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/network3.xlsx")
 			directory:								false
 		}
 
@@ -49,7 +49,7 @@ Form
 			filter:									"*.xlsx"
 			save:									false
 			fieldWidth:								300 * preferencesModel.uiScale
-			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/actor_file1.xlsx;" + libPathDir.value + "/jaspDyads/data/actor_file2.xlsx")
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/actor_file3.xlsx;")
 			multiple:								true
 		}
 
@@ -62,7 +62,7 @@ Form
 			filter:									"*.xlsx"
 			save:									false
 			fieldWidth:								300 * preferencesModel.uiScale
-			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/density_file1.xlsx;" + libPathDir.value + "/jaspDyads/data/density_file2.xlsx")
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/density_file3.xlsx;")
 			multiple:								true
 		}
 	}
@@ -77,7 +77,7 @@ Form
 	Group
 	{
 		CheckBox {name: "center"; label: qsTr("Center covariates"); checked: true}
-		CheckBox {name: "separateSigma"; label: qsTr("Separate sender-receiver covariance matrices"); checked: false}
+		CheckBox {name: "separateSigma"; label: qsTr("Separate actor variance estimates"); checked: false}
 		CheckBox {name: "densVar"; label: qsTr("Random density effects"); checked: true}
 	}
 
