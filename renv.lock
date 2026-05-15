@@ -67,7 +67,7 @@
     },
     "RSQLite": {
       "Package": "RSQLite",
-      "Version": "2.4.6",
+      "Version": "3.52.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -81,7 +81,7 @@
         "pkgconfig",
         "rlang"
       ],
-      "Hash": "09ba8d6f810e3818edf73c8063b4e2ff"
+      "Hash": "0fd5849748719f03bab1b0cbf7efeae4"
     },
     "Rcpp": {
       "Package": "Rcpp",
@@ -109,17 +109,6 @@
       ],
       "Hash": "8e4fa15d805764b296e55f57ae02b3ce"
     },
-    "RcppGSL": {
-      "Package": "RcppGSL",
-      "Version": "0.3.14",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "Rcpp",
-        "stats"
-      ],
-      "Hash": "670844a20f962c129db037bf778c2e6b"
-    },
     "RcppParallel": {
       "Package": "RcppParallel",
       "Version": "5.1.11-2",
@@ -129,22 +118,6 @@
         "R"
       ],
       "Hash": "03f41dbd55bb100847e38cab8ac0dde2"
-    },
-    "RcppZiggurat": {
-      "Package": "RcppZiggurat",
-      "Version": "0.1.8",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "Rcpp",
-        "RcppGSL",
-        "graphics",
-        "parallel",
-        "stats",
-        "utils"
-      ],
-      "Hash": "e408c6aa3fa0b517a39636d16af89532"
     },
     "Rfast": {
       "Package": "Rfast",
@@ -333,13 +306,13 @@
     },
     "cpp11": {
       "Package": "cpp11",
-      "Version": "0.5.4",
+      "Version": "0.5.5",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R"
       ],
-      "Hash": "04ac7bc64258a9008e460e0bef38792c"
+      "Hash": "20ecb9105a3fb48a8390919abc3b7e90"
     },
     "crayon": {
       "Package": "crayon",
@@ -378,14 +351,14 @@
     },
     "data.table": {
       "Package": "data.table",
-      "Version": "1.18.2.1",
+      "Version": "1.18.4",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "methods"
       ],
-      "Hash": "df99cd4333ce592df5173d6ad39b5c14"
+      "Hash": "da9ddede68a6f6e5d3098c0ab81b6e1f"
     },
     "desc": {
       "Package": "desc",
@@ -451,25 +424,24 @@
     },
     "dyads": {
       "Package": "dyads",
-      "Version": "1.2.22",
+      "Version": "1.2.22.3",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "pankajrsingla",
       "RemoteRepo": "dyads",
       "RemoteRef": "main",
-      "RemoteSha": "09a0c713f9990267dcc912463edcdd06193c2fa9",
+      "RemoteSha": "14c434581d4966beccba40dd9f31a16aa6c94357",
       "Requirements": [
         "CholWishart",
         "MASS",
         "R",
-        "RcppZiggurat",
         "Rfast",
         "dplyr",
         "mvtnorm",
         "stats"
       ],
-      "Hash": "457e5017681aa4ae509331a99a03226d"
+      "Hash": "6f5cedf5531d5c096ada569ca14dc591"
     },
     "evaluate": {
       "Package": "evaluate",
@@ -746,7 +718,7 @@
       "RemoteUsername": "jasp-stats",
       "RemoteRepo": "jaspBase",
       "RemoteRef": "master",
-      "RemoteSha": "0f9bd7d846d8432301ccf7bbdcdadcb350df0704",
+      "RemoteSha": "a74bfedf833286fe329eb90bbc5511dcbdc58532",
       "Remotes": "jasp-stats/jaspGraphs",
       "Requirements": [
         "R6",
@@ -772,7 +744,7 @@
         "systemfonts",
         "withr"
       ],
-      "Hash": "0c645905221bb3ee79634eb715af477c"
+      "Hash": "e1de9f9e1258baa122360710a3a05460"
     },
     "jaspGraphs": {
       "Package": "jaspGraphs",
@@ -783,7 +755,7 @@
       "RemoteUsername": "jasp-stats",
       "RemoteRepo": "jaspGraphs",
       "RemoteRef": "master",
-      "RemoteSha": "1eb48e7e0fe9559bbd15da25f30703c7cca246bb",
+      "RemoteSha": "6357a3c192c97a0bd00881d0098d93a899e3e869",
       "Requirements": [
         "R6",
         "cli",
@@ -797,7 +769,7 @@
         "rlang",
         "scales"
       ],
-      "Hash": "a6b980398870a3b5505ac50e903e0b0b"
+      "Hash": "b92c9f0570602c6957c3d83c49bce12c"
     },
     "jaspTools": {
       "Package": "jaspTools",
@@ -954,7 +926,7 @@
     },
     "officer": {
       "Package": "officer",
-      "Version": "0.7.4",
+      "Version": "0.7.5",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -972,17 +944,17 @@
         "xml2",
         "zip"
       ],
-      "Hash": "6f1b37c92d6fa8baa78b466ee216e217"
+      "Hash": "11d3d171bd3d2442d9ecb8136b42749d"
     },
     "openssl": {
       "Package": "openssl",
-      "Version": "2.4.0",
+      "Version": "2.4.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "askpass"
       ],
-      "Hash": "ac38e274b5861a4c26095f705bbc0c19"
+      "Hash": "865a99ecdce7c318efa3a467b7614ec3"
     },
     "otel": {
       "Package": "otel",
