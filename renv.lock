@@ -67,7 +67,7 @@
     },
     "RSQLite": {
       "Package": "RSQLite",
-      "Version": "3.52.0",
+      "Version": "3.53.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -81,7 +81,7 @@
         "pkgconfig",
         "rlang"
       ],
-      "Hash": "0fd5849748719f03bab1b0cbf7efeae4"
+      "Hash": "6a3f063161cc3d9ecfcfec4b5f32647d"
     },
     "Rcpp": {
       "Package": "Rcpp",
@@ -190,7 +190,7 @@
     },
     "bit64": {
       "Package": "bit64",
-      "Version": "4.8.0",
+      "Version": "4.8.2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -201,7 +201,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "94d99f35c426436d2a3a56d20c6bcf45"
+      "Hash": "71778c0b60bbf439ac64e6a8be695917"
     },
     "blob": {
       "Package": "blob",
@@ -227,7 +227,7 @@
     },
     "bslib": {
       "Package": "bslib",
-      "Version": "0.10.0",
+      "Version": "0.11.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -245,7 +245,7 @@
         "rlang",
         "sass"
       ],
-      "Hash": "d6072fb96c4868d8cb40d4071cdc472b"
+      "Hash": "82c0dcea3e967cfeaa263e920798a77e"
     },
     "cachem": {
       "Package": "cachem",
@@ -431,7 +431,7 @@
       "RemoteUsername": "pankajrsingla",
       "RemoteRepo": "dyads",
       "RemoteRef": "main",
-      "RemoteSha": "14c434581d4966beccba40dd9f31a16aa6c94357",
+      "RemoteSha": "e9d5a7152d6df7fc40593d7793c21f3dcd7ce948",
       "Requirements": [
         "CholWishart",
         "MASS",
@@ -441,7 +441,7 @@
         "mvtnorm",
         "stats"
       ],
-      "Hash": "6f5cedf5531d5c096ada569ca14dc591"
+      "Hash": "c19cfaee0b525d8aa26ddf1c29c9093c"
     },
     "evaluate": {
       "Package": "evaluate",
@@ -718,7 +718,7 @@
       "RemoteUsername": "jasp-stats",
       "RemoteRepo": "jaspBase",
       "RemoteRef": "master",
-      "RemoteSha": "a74bfedf833286fe329eb90bbc5511dcbdc58532",
+      "RemoteSha": "244c661b7a4cdcc9aca0aacbf5555881d90c0985",
       "Remotes": "jasp-stats/jaspGraphs",
       "Requirements": [
         "R6",
@@ -744,7 +744,7 @@
         "systemfonts",
         "withr"
       ],
-      "Hash": "e1de9f9e1258baa122360710a3a05460"
+      "Hash": "e4043e3a326b792e9b5252e823952b3a"
     },
     "jaspGraphs": {
       "Package": "jaspGraphs",
@@ -755,7 +755,7 @@
       "RemoteUsername": "jasp-stats",
       "RemoteRepo": "jaspGraphs",
       "RemoteRef": "master",
-      "RemoteSha": "6357a3c192c97a0bd00881d0098d93a899e3e869",
+      "RemoteSha": "cbe943517ac21078d0a502bcfaf8ae5e11756a05",
       "Requirements": [
         "R6",
         "cli",
@@ -769,7 +769,7 @@
         "rlang",
         "scales"
       ],
-      "Hash": "b92c9f0570602c6957c3d83c49bce12c"
+      "Hash": "e0f2f4ef7da8d8fb11f8da8975088f78"
     },
     "jaspTools": {
       "Package": "jaspTools",
@@ -1181,7 +1181,7 @@
     },
     "readxl": {
       "Package": "readxl",
-      "Version": "1.4.5",
+      "Version": "1.5.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1192,7 +1192,7 @@
         "tibble",
         "utils"
       ],
-      "Hash": "18948de59f05d38a44d3e5065a76b4b6"
+      "Hash": "db51be8ae666e3d16195395b9058a91a"
     },
     "rematch": {
       "Package": "rematch",
