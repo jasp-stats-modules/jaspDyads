@@ -35,7 +35,7 @@ Form
 			filter:									"*.xlsx"
 			save:									false
 			fieldWidth:								300 * preferencesModel.uiScale
-			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/network.xlsx")
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/p2_network.xlsx")
 			directory:								false
 		}
 
@@ -48,7 +48,7 @@ Form
 			filter:									"*.xlsx"
 			save:									false
 			fieldWidth:								300 * preferencesModel.uiScale
-			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/sender_file1.xlsx")
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/p2_sender.xlsx")
 			multiple:								false
 		}
 
@@ -61,7 +61,7 @@ Form
 			filter:									"*.xlsx"
 			save:									false
 			fieldWidth:								300 * preferencesModel.uiScale
-			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/receiver_file1.xlsx")
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/p2_receiver.xlsx")
 			multiple:								false
 		}
 
@@ -74,8 +74,8 @@ Form
 			filter:									"*.xlsx"
 			save:									false
 			fieldWidth:								300 * preferencesModel.uiScale
-			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/density_file1.xlsx")
-			multiple:								false
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/p2_density1.xlsx;" + libPathDir.value + "/jaspDyads/data/p2_density2.xlsx")
+			multiple: 								true
 		}
 
 		FileSelector
@@ -87,7 +87,7 @@ Form
 			filter:									"*.xlsx"
 			save:									false
 			fieldWidth:								300 * preferencesModel.uiScale
-			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/reciprocity_file1.xlsx")
+			value: 									libPathDir.value === "" ? "" : (libPathDir.value + "/jaspDyads/data/p2_reciprocity.xlsx")
 			multiple:								false
 		}
 	}
