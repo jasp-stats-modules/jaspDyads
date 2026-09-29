@@ -23,59 +23,97 @@ sanitizeMatrix <- function(mat, name="Data") {
 
 # Generic wrapper to run dyads functions with a JASP progress bar
 runDyadsWithProgress <- function(dyadsFunction, args, options, label) {
-    # 1. Determine target ESS (Effective Sample Size)
-    # Most functions in dyads use 'adapt' as the convergence target.
-    target_ess <- options[["adapt"]]
-    if (is.null(target_ess)) target_ess <- 300 # Default fallback based on dyads source
 
-    # 2. State tracking
-    last_reported_progress <- 0
+    # The multilevel functions take a list of networks (`nets`); p2/j2 take a single `net`.
+    essBased <- "nets" %in% names(args)
 
-    # 3. Define the Dynamic Callback
-    # This matches the signature callback2(neff_min_obs, neff_min) used in dyads
-    jasp_ess_callback <- function(current_ess, target) {
-        current_val <- floor(max(0, current_ess))
+    totalTicks <- 1000L
+    samplesPerAdaptiveSequence <- 125L  # Sadapt in dyads
+    maxAdaptiveSequences <- 1000L       # Nadapt in dyads::p2ML / j2ML / b2ML (loop runs i = 2..Nadapt)
 
-        if (current_val > last_reported_progress) {
-            ticks_to_send <- current_val - last_reported_progress
+    ticksSent <- 0L
+    fraction <- 0                       # running maximum, so the bar never moves backwards
 
-            # Send the delta to JASP
-            for (t in seq_len(ticks_to_send)) {
-                jaspBase::progressbarTick()
-            }
+    reportFraction <- function(newFraction) {
+        if (!is.finite(newFraction)) return(invisible(NULL))
+        fraction <<- max(fraction, min(1, max(0, newFraction)))
+        tick <- as.integer(floor(totalTicks * fraction))
+        if (tick > ticksSent) {
+            for (k in seq_len(tick - ticksSent)) jaspBase::progressbarTick()
+            ticksSent <<- tick
+        }
+        invisible(NULL)
+    }
 
-            # Use super-assignment to update variable in .runDyadsWithProgress scope
-            last_reported_progress <<- current_val
+    if (essBased) {
+        essHistory <- numeric(0)
+
+        # Projected share of the adaptive loop that is complete, given the min-ESS history
+        projectEssProgress <- function(ess, target) {
+            k <- length(ess)
+            current <- ess[k]
+            if (!is.finite(target) || target <= 0) return(0)
+            if (current >= target) return(1)
+
+            # Too few points (or unusable values) to extrapolate: be conservative, ESS is a noisy
+            # and optimistic guide in the first sequences
+            naive <- 0.5 * max(0, current) / target
+            minPoints <- 8L
+            if (k < minPoints || current <= 0) return(naive)
+
+            recent <- seq.int(max(1L, k %/% 2L), k)
+            if (any(ess[recent] <= 0)) return(naive)
+
+            logIndex <- log(recent)
+            logEss <- log(ess[recent])
+            growthExponent <- sum((logIndex - mean(logIndex)) * (logEss - mean(logEss))) / sum((logIndex - mean(logIndex))^2)
+            if (!is.finite(growthExponent)) growthExponent <- 1
+            growthExponent <- min(1, max(0.3, growthExponent))
+
+            projectedSequences <- k * (target / current)^(1 / growthExponent)
+            k / projectedSequences
+        }
+
+        # callback2(neff_min_obs, neff_min): dyads has already replaced NaN by 0
+        progressCallback <- function(neff_min_obs, neff_min) {
+            essHistory[length(essHistory) + 1L] <<- if (is.na(neff_min_obs)) 0 else neff_min_obs
+
+            projected <- projectEssProgress(essHistory, neff_min)
+            # Hard upper limit on the loop length: it also ends after (maxAdaptiveSequences - 1) sequences
+            sequenceLimit <- length(essHistory) / (maxAdaptiveSequences - 1L)
+
+            reportFraction(max(projected, sequenceLimit))
+        }
+    } else {
+        # p2/j2 need to know how many adaptive sequences there will be; dyads defaults to 100
+        nAdapt <- args[["adapt"]]
+        if (is.null(nAdapt) || !is.finite(nAdapt) || nAdapt < 0) nAdapt <- 100
+        adaptWork <- samplesPerAdaptiveSequence * nAdapt
+
+        # callback2(iteration, totalIterations)
+        progressCallback <- function(iteration, total) {
+            if (is.na(iteration) || is.na(total) || total < nAdapt || total <= 0) return(invisible(NULL))
+
+            work <- if (iteration <= nAdapt) samplesPerAdaptiveSequence * iteration else adaptWork + (iteration - nAdapt)
+            totalWork <- adaptWork + (total - nAdapt)
+            reportFraction(work / totalWork)
         }
     }
 
-    # 4. Inject the JASP callback into the dyads package
-    jaspBase::assignFunctionInPackage(
-        fun     = jasp_ess_callback,
-        name    = "callback2",
-        package = "dyads"
-    )
+    # Remember the original hook so it can be restored exactly
+    originalCallback <- get("callback2", envir = getNamespace("dyads"))
 
-    # 5. Setup Cleanup on Exit
-    # This runs regardless of whether the function succeeds, fails, or is cancelled
+    jaspBase::startProgressbar(expectedTicks = totalTicks, label = label)
+
+    jaspBase::assignFunctionInPackage(fun = progressCallback, name = "callback2", package = "dyads")
+
+    # Runs whether the analysis succeeds, fails or is cancelled
     on.exit({
-        # Fill the bar to 100% to avoid it hanging if converged early
-        remaining <- target_ess - last_reported_progress
-        if (remaining > 0) {
-            for (k in seq_len(remaining)) jaspBase::progressbarTick()
-        }
+        # Complete the bar (also covers early convergence and runs that end without a final callback)
+        reportFraction(1)
+        jaspBase::assignFunctionInPackage(fun = originalCallback, name = "callback2", package = "dyads")
+    }, add = TRUE)
 
-        # Reset dyads::callback2 to its original dummy state
-        jaspBase::assignFunctionInPackage(
-            fun     = function(n1, n2) {},
-            name    = "callback2",
-            package = "dyads"
-        )
-    })
-
-    # 6. Start the JASP Progress Bar
-    jaspBase::startProgressbar(expectedTicks = target_ess, label = label)
-
-    # 7. Execute the actual function (p2ML, b2ML, j2ML, etc.)
+    # Execute the actual function (p2, j2, p2ML, j2ML, b2ML)
     return(do.call(dyadsFunction, args))
 }

@@ -714,7 +714,7 @@
       "RemoteUsername": "jasp-stats",
       "RemoteRepo": "jaspBase",
       "RemoteRef": "master",
-      "RemoteSha": "f6e133c40b95bff441d344bf193054d4c98c7e47",
+      "RemoteSha": "6a6910dbe148caba2d82d60b8c42305ac40d2f1d",
       "Remotes": "jasp-stats/jaspGraphs",
       "Requirements": [
         "R6",
@@ -740,7 +740,7 @@
         "systemfonts",
         "withr"
       ],
-      "Hash": "bb3b456b0962030c99157152560c629e"
+      "Hash": "5bda641bfedf7d7a94987f46d182000d"
     },
     "jaspGraphs": {
       "Package": "jaspGraphs",
@@ -751,7 +751,7 @@
       "RemoteUsername": "jasp-stats",
       "RemoteRepo": "jaspGraphs",
       "RemoteRef": "master",
-      "RemoteSha": "edb912bfb3435da6f079068a176f46cd8294b4e0",
+      "RemoteSha": "cdc4c9cf20f52c22c24162ea6fcbdd6b211e92db",
       "Requirements": [
         "R6",
         "cli",
@@ -765,7 +765,7 @@
         "rlang",
         "scales"
       ],
-      "Hash": "572464666b983097fbd10f5e8102d84e"
+      "Hash": "1b9d937df5af99bf36bfa2337ad2caa0"
     },
     "jaspTools": {
       "Package": "jaspTools",
