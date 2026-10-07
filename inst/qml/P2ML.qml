@@ -95,8 +95,8 @@ Form
 
 	Group
 	{
-		IntegerField {name: "burnin"; label: qsTr("Burnin"); defaultValue: 15; min: 0; placeholderText: qsTr("10000")}
-		IntegerField {name: "adapt"; label: qsTr("Adapt"); defaultValue: 15; min: 0; placeholderText: qsTr("100")}
+		IntegerField {name: "burnin"; label: qsTr("Burnin"); defaultValue: 2500; min: 0; placeholderText: qsTr("2500")}
+		IntegerField {name: "adapt"; label: qsTr("Adapt"); defaultValue: 300; min: 0; placeholderText: qsTr("300")}
 		IntegerField {name: "seed"; label: qsTr("Seed"); defaultValue: 1; min: 0; placeholderText: qsTr("1")}
 	}
 
